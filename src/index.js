@@ -18,7 +18,12 @@ const typeReducer = (state = typeDefaultState, action) => {
     case "ADD_TYPE":
       return { ...state, types: [...state.types, action.payload] }
     case "ADD_PROD":
-      return { ...state, products: [...state.products, action.payload] }
+      if (!action.payload.type) {
+        return { ...state, products: [...state.products, { id: action.payload.id, name: action.payload.name, type: state.types[0].name, price: action.payload.price, gost: action.payload.gost, count: 1 }] }
+      } else {
+        return { ...state, products: [...state.products, action.payload] }
+      }
+
     case "REMOVE_CART":
       return { ...state, cart: [] }
     case "REMOVE_EL_CART":

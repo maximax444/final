@@ -10,6 +10,7 @@ function Add() {
     const dispatch = useDispatch()
     const types = useSelector(state => state.types)
     const products = useSelector(state => state.products)
+    
     if (!types.length) {
         return (
             <div className="container">
@@ -21,10 +22,10 @@ function Add() {
 
 
 
-
+    console.log(newProd)
     const fixSelect = () => {
         if (!newProd.types) {
-            setNewProd({ ...newProd, type: types[0].id })
+            setNewProd({ ...newProd, type: types[0].name })
         }
 
 
@@ -32,14 +33,15 @@ function Add() {
     const addNewProd = (e) => {
         e.preventDefault();
         if (!newProd.types) {
-            setNewProd({ ...newProd, type: types[0].id })
+            setNewProd({ ...newProd, type: types[0].name })
         }
+        fixSelect()
         createProd()
 
     }
     const createProd = () => {
         dispatch({ type: "ADD_PROD", payload: newProd })
-        setNewProd({ id: '', name: '', type: types[0].id, price: '', gost: '', count: 1 })
+        setNewProd({ id: '', name: '', type: types[0].name, price: '', gost: '', count: 1 })
     }
     return (
         <section class="products">
@@ -73,7 +75,7 @@ function Add() {
                             <img src={icon} alt="" />
                             <select name="" id="" value={newProd.type} onChange={e => setNewProd({ ...newProd, type: e.target.value })}>
                                 {types.map(prod =>
-                                    <option value={prod.id} key={prod.id}>{prod.name}</option>
+                                    <option value={prod.name} key={prod.id}>{prod.name}</option>
                                 )}
                             </select>
                         </label>
